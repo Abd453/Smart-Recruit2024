@@ -74,16 +74,15 @@ const Navbar = () => {
               ))}
             </ul>
             <div className="flex space-x-8">
-              <a href="#"></a>
               <Link
                 to="/login"
-                className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800"
+                className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800 text-white transition-colors duration-300 hover:from-orange-600 hover:to-orange-900"
               >
                 Sign In
               </Link>
               <Link
                 to="/signup"
-                className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800"
+                className="py-2 px-3 rounded-md bg-gradient-to-r from-orange-500 to-orange-800 text-white transition-colors duration-300 hover:from-orange-600 hover:to-orange-900"
               >
                 Create an account
               </Link>

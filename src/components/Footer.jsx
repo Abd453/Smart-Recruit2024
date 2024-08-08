@@ -7,7 +7,7 @@ import {
   FaTwitch,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
+// top
 const Footer = () => {
   const socialItems = [
     { name: 'Facebook', icon: FaFacebook, link: 'https://www.facebook.com/' },

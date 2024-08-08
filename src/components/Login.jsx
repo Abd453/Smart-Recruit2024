@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Use useNavigate for React Router v6
-import ielogo from "../assets/logo.png";
-import ielogoo from "../assets/ielogoo.jpg";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Use useNavigate for React Router v6
+import ielogo from '../assets/logo.png';
+import ielogoo from '../assets/ielogoo.jpg';
 
 const Login = () => {
   const [Data, setData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const [errors, setErrors] = useState({});
   const [isValid, setValid] = useState(true);
@@ -20,18 +20,18 @@ const Login = () => {
     let validationErrors = {};
 
     // Validate email
-    if (Data.email === "" || Data.email === null) {
+    if (Data.email === '' || Data.email === null) {
       isValid = false;
-      validationErrors.email = "Email required"; // Correct field name to email
+      validationErrors.email = 'Email required'; // Correct field name to email
     }
 
     // Validate password
-    if (Data.password === "" || Data.password === null) {
+    if (Data.password === '' || Data.password === null) {
       isValid = false;
-      validationErrors.password = "Password required"; // Correct field name to password
-    } else if (Data.password.length < 6) {
+      validationErrors.password = 'Password required'; // Correct field name to password
+    } else if (Data.password.length < 2) {
       isValid = false;
-      validationErrors.password = "Minimum length is 6";
+      validationErrors.password = 'Minimum length is 2';
     }
 
     // Set errors and validation state
@@ -41,34 +41,34 @@ const Login = () => {
     // Proceed only if the form is valid
     if (isValid) {
       axios
-        .get("http://localhost:8001/users")
+        .get('http://localhost:8001/signupuser')
         .then((result) => {
           let loginSuccessful = false; // Track login success
 
           result.data.forEach((user) => {
             if (user.email === Data.email) {
               if (user.password === Data.password) {
-                alert("Login successfully");
+                alert('Login successfully');
                 loginSuccessful = true;
                 setValidatorTo(true);
               } else {
                 isValid = false;
-                validationErrors.password = "or Wrong password";
+                validationErrors.password = 'or Wrong password';
               }
             }
           });
 
           // Check loginSuccessful outside the loop
           if (!loginSuccessful) {
-            if (Data.email !== "") {
-              validationErrors.email = "Wrong email address";
+            if (Data.email !== '') {
+              validationErrors.email = 'Wrong email address';
             }
             setErrors(validationErrors);
             setValid(isValid);
             setValidatorTo(false);
           } else {
             // Navigate to home page after successful login
-            navigate("/"); // Use navigate to redirect
+            navigate('/employeehome'); // Use navigate to redirect
           }
         })
         .catch((err) => console.log(err));
@@ -98,8 +98,8 @@ const Login = () => {
             <></>
           ) : (
             <span>
-              {" "}
-              {errors.email} {errors.password}{" "}
+              {' '}
+              {errors.email} {errors.password}{' '}
             </span>
           )}
           <form onSubmit={handleSubmit}>
@@ -109,7 +109,7 @@ const Login = () => {
                 placeholder="Email"
                 className="w-full bg-transparent text-black border-b border-black bg-white rounded px-4 py-2 mb-7 outline-none focus:outline-none"
                 style={{
-                  boxShadow: "0 4px 6px -1px rgba(70, 130, 180, 0.7)",
+                  boxShadow: '0 4px 6px -1px rgba(70, 130, 180, 0.7)',
                 }} // Brighter sky-blue shadow
                 onChange={(event) =>
                   setData({ ...Data, email: event.target.value })
@@ -120,11 +120,9 @@ const Login = () => {
                 placeholder="Password"
                 className="w-full bg-transparent text-black border-b border-black bg-white rounded px-4 py-2 mb-2 outline-none focus:outline-none"
                 style={{
-                  boxShadow: "0 4px 6px -1px rgba(70, 130, 180, 0.7)",
+                  boxShadow: '0 4px 6px -1px rgba(70, 130, 180, 0.7)',
                 }} // Brighter sky-blue shadow
-                onChange={(e) =>
-                  setData({ ...Data, password: e.target.value })
-                }
+                onChange={(e) => setData({ ...Data, password: e.target.value })}
               />
             </div>
 

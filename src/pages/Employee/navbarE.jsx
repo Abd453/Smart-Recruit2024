@@ -17,7 +17,7 @@ const NavbarE = () => {
         <a href="#" className="flex items-center">
           <img src={logo} className="h-8 mr-3" alt="Company Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            IE Networks
+            IE Networks...
           </span>
         </a>
 

@@ -47,7 +47,7 @@ const Navbar = () => {
               <button className="w-full h-full">Login</button>
             </Link>
             <Link
-              to="/get-started"
+              to="/signup"
               className="bg-gradient-to-r from-orange-500 to-orange-800 py-2 px-3 rounded-md"
             >
               <button className="w-full h-full">Get Started</button>

@@ -45,7 +45,8 @@ export default function MyProfile() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+
+    <div className="flex flex-col min-h-screen ">
       <NavbarE />
 
       <div className="flex-grow flex">
@@ -177,7 +178,7 @@ export default function MyProfile() {
                 <p className="text-gray-700">
                   {user.fname} {user.lname} <br></br> {user.address} <br></br> {user.email}, for any inquiries.
                 </p>
-                
+
                
               </div>
             )}

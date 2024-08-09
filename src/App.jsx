@@ -1,6 +1,6 @@
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import Jobs from './components/Job';
+import Cards from './components/Card/Cards';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Footer from './components/Footer';
@@ -23,6 +23,9 @@ import EmployeeH from './pages/Employee/Home';
 
 import MyProfile from './pages/Employee/myProfile';
 
+import Testimonials from './components/Testimonial/Testimonials'; //Testimonials
+import Experience from './components/Experience/Experience';
+
 const App = () => {
   return (
     <>
@@ -36,7 +39,9 @@ const App = () => {
                 <Navbar />
                 <div className="max-w-7xl mx-auto pt-20 px-6">
                   <HeroSection />
-                  <Jobs />
+                  <Cards />
+                  <Experience />
+                  <Testimonials />
                 </div>
                 <Footer />
               </>
@@ -47,7 +52,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/teamlead" element={<TeamleadL />} />
           <Route path="/teamleadhome" element={<TeamleadH />} />
-          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/cards" element={<Cards />} />
           <Route path="/navbart" element={<Navbart />} />
           <Route path="/newjobs" element={<Newjobs />} />
           <Route path="/jobstobe" element={<Jobstobe />} />

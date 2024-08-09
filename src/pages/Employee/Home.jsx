@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'; // Import useRef
-import Jobs from '../../components/Job';
+import Cards from '../../components/Card/Cards';
 import Footer from '../../components/Footer';
 import NavbarE from './navbarE';
 import logo from '../../assets/logo.png';
@@ -53,7 +53,7 @@ export default function Home() {
         className="w-full p-6 md:p-12"
       >
         <div className="w-full max-w-4xl mx-auto">
-          <Jobs />
+          <Cards />
         </div>
       </div>
 

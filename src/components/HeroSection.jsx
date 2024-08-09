@@ -2,6 +2,7 @@ import React from 'react';
 import Recruiting from '../assets/Recruiting.mp4';
 import Planning from '../assets/Planning.mp4'; // Import the second video
 // import HeroSection2 from './HeroSection2';
+// import Testimonials from './Testimonial/Testimonials';
 const HeroSection = () => {
   return (
     <div className="flex flex-col items-center mt-6 lg:mt-20 bg-gradient-to-r from-blue-800 to-pink-600 text-white">
@@ -138,6 +139,9 @@ const HeroSection = () => {
           </p>
         </div>
       </div>
+      {/* <section className="mt-10">
+        <Testimonials />
+      </section> */}
     </div>
   );
 };

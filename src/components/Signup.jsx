@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import logo from '../assets/logo.png';
+import logo from '../assets/ie.png';
 import axios from 'axios';
 import Footer from './Footer';
+import bgimg from "../assets/bgImg/bgimg2.jpg"
+
 
 export default function Signup() {
   const [data, setData] = useState({
@@ -57,6 +59,7 @@ export default function Signup() {
     setValid(isValid);
 
     if (isValid) {
+      const fullname = `${data.fname} ${data.lname}`;
       axios
         .post('http://localhost:8001/signupuser', data)
         .then((result) => {
@@ -78,20 +81,23 @@ export default function Signup() {
   };
 
   return (
+    <div>
+    <div className='  bg-cover bg-center flex'
+    style={{ backgroundImage: `url(${bgimg})` }}>
     <div className="max-w-4xl mx-auto font-sans p-6">
       <div className="text-center mb-16">
         <a href="">
           <img src={logo} alt="logo" className="w-52 inline-block" />
         </a>
-        <h4 className="text-gray-800 text-base font-semibold mt-6">
-          Signup form
-        </h4>
+        <h4 className="text-white text-base font-bold shadow-md shadow-black pb-8 pt-4 flex items-center justify-center mt-6">
+                    Signup Form
+                </h4>
       </div>
 
       <form onSubmit={handleSubmit}>
         <div className="grid sm:grid-cols-2 gap-8">
           <div>
-            <label className="text-gray-800 text-sm mb-2 block">
+            <label className="text-white text-md mb-2 block">
               First name
             </label>
             <input
@@ -107,7 +113,7 @@ export default function Signup() {
             )}
           </div>
           <div>
-            <label className="text-gray-800 text-sm mb-2 block">
+            <label className="text-white text-md mb-2 block">
               Last name
             </label>
             <input
@@ -123,7 +129,7 @@ export default function Signup() {
             )}
           </div>
           <div>
-            <label className="text-gray-800 text-sm mb-2 block">Email</label>
+            <label className="text-white text-md mb-2 block">Email</label>
             <input
               name="email"
               type="email"
@@ -137,7 +143,7 @@ export default function Signup() {
             )}
           </div>
           <div>
-            <label className="text-gray-800 text-sm mb-2 block">Password</label>
+            <label className="text-white text-md mb-2 block">Password</label>
             <input
               name="password"
               type="password"
@@ -151,7 +157,7 @@ export default function Signup() {
             )}
           </div>
           <div>
-            <label className="text-gray-800 text-sm mb-2 block">
+            <label className="text-white text-md mb-2 block">
               Confirm password
             </label>
             <input
@@ -167,7 +173,7 @@ export default function Signup() {
             )}
           </div>
           <div>
-            <label className="text-gray-800 text-sm mb-2 block">Address</label>
+            <label className="text-white text-md mb-2 block">Address</label>
             <input
               name="address"
               type="text"
@@ -182,16 +188,20 @@ export default function Signup() {
           </div>
         </div>
 
-        <div className="mt-12 flex justify-center">
+        <div className="mt-12 flex justify-center ">
           <button
             type="submit"
-            className="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+            className=" py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-red-700 focus:outline-none"
           >
             Submit
           </button>
         </div>
       </form>
-      <Footer />
+      
+    </div>
+    
+    </div>
+    <Footer />
     </div>
   );
 }

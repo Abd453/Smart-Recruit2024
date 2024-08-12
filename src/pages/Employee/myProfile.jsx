@@ -3,6 +3,7 @@ import NavbarE from './navbarE';
 import Footer from '../../components/Footer';
 import pp from '../../assets/profile-pictures/user2.jpg';
 import { FaPen } from 'react-icons/fa';
+import bgimg from "../../assets/bgImg/bgimg2.jpg"
 
 // Importing the user data from the JSON file
 import authData from '../../data/auth.json'; // Assuming auth.json is in a data directory
@@ -11,12 +12,11 @@ export default function MyProfile() {
   // Initial state setup for the user
   const [user, setUser] = useState({
     id: '',
-    fname: '',
-    lname: '',
+    fullname: '',
+    phoneno:"",
     email: '',
     password: '',
-    confirmPassword: '',
-    address: '',
+    physicaladdress : '',
   });
 
   const [isEditable, setIsEditable] = useState(false);
@@ -39,14 +39,17 @@ export default function MyProfile() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios.get("http://localhost:8001/userapply")
     // Update the user in auth.json
     // In a real app, you would send a request to a backend server here
     console.log('User data updated:', user);
   };
 
   return (
-    <div>
-    <div className="flex flex-col min-h-screen ">
+    <div >
+    <div className="flex flex-col min-h-screen bg-cover bg-center"
+    style={{ backgroundImage: `url(${bgimg})` }}
+    >
       <NavbarE />
 
       <div className="flex-grow flex">
@@ -94,14 +97,14 @@ export default function MyProfile() {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="lname" className="block text-gray-700 font-bold mb-2">
-                    Last Name
+                  <label htmlFor="phoneno" className="block text-gray-700 font-bold mb-2">
+                    Phone number
                   </label>
                   <input
                     type="text"
-                    id="lname"
-                    name="lname"
-                    value={user.lname}
+                    id="phoneno"
+                    name="phoneno"
+                    value={user.phoneno}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border rounded-lg"
                   />
@@ -135,7 +138,7 @@ export default function MyProfile() {
                   />
                 </div>
 
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label htmlFor="confirmPassword" className="block text-gray-700 font-bold mb-2">
                     Confirm Password
                   </label>
@@ -147,17 +150,17 @@ export default function MyProfile() {
                     onChange={handleChange}
                     className="w-full px-3 py-2 border rounded-lg"
                   />
-                </div>
+                </div> */}
 
                 <div className="mb-6">
                   <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
-                    Address
+                   Physical Address
                   </label>
                   <input
                     type="text"
-                    id="address"
-                    name="address"
-                    value={user.address}
+                    id="physicaladdress"
+                    name="physicaladdress"
+                    value={user.physicaladdress}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border rounded-lg"
                   />

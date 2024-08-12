@@ -9,7 +9,8 @@ import Footer from '../../components/Footer';
 export default function ApplyForm() {
     const [data, setData] = useState({
         jobtitle: "",
-        fullname: "",
+        fname: "",
+        lname: "",
         phoneno: "",
         email: "",
         physicaladdress: "",
@@ -47,9 +48,13 @@ export default function ApplyForm() {
             isValid = false;
             validationErrors.jobtitle = "Job title required";
         }
-        if (data.fullname === "") {
+        if (data.fname === "") {
             isValid = false;
-            validationErrors.fullname = "Full name required";
+            validationErrors.fname = "First name required";
+        }
+        if (data.lname === "") {
+            isValid = false;
+            validationErrors.lname = "Last name required";
         }
         if (data.phoneno === "") {
             isValid = false;
@@ -80,7 +85,8 @@ export default function ApplyForm() {
                     alert("Success");
                     setData({
                         jobtitle: "",
-                        fullname: "",
+                        fname: "",
+                        lname: "",
                         phoneno: "",
                         email: "",
                         physicaladdress: "",
@@ -129,16 +135,28 @@ export default function ApplyForm() {
                         {errors.jobtitle && <p className="text-red-500 text-sm">{errors.jobtitle}</p>}
                     </div>
                     <div>
-                        <label className="text-white text-sm mb-2 block">Full Name</label>
+                        <label className="text-white text-sm mb-2 block">First Name</label>
                         <input
-                            name="fullname"
+                            name="fname"
                             type="text"
-                            value={data.fullname}
+                            value={data.fname}
                             onChange={handleChange}
                             className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            placeholder="Full name"
+                            placeholder="First name"
                         />
-                        {errors.fullname && <p className="text-red-500 text-sm">{errors.fullname}</p>}
+                        {errors.fname && <p className="text-red-500 text-sm">{errors.fname}</p>}
+                    </div>
+                    <div>
+                        <label className="text-white text-sm mb-2 block">Last Name</label>
+                        <input
+                            name="lname"
+                            type="text"
+                            value={data.lname}
+                            onChange={handleChange}
+                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                            placeholder="Last name"
+                        />
+                        {errors.lname && <p className="text-red-500 text-sm">{errors.lname}</p>}
                     </div>
                     <div>
                         <label className="text-white text-sm mb-2 block">Phone Number</label>

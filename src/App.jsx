@@ -22,6 +22,7 @@ import EmployeeH from './pages/Employee/Home';
 // import Apply  from "./pages/Manager/jobstobe";
 
 import MyProfile from './pages/Employee/myProfile';
+import Applyform from './pages/Employee/applyform';
 
 import Testimonials from './components/Testimonial/Testimonials'; //Testimonials
 import Experience from './components/Experience/Experience';
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/employee" element={<EmployeeL />} />
           <Route path="/employeehome" element={<EmployeeH />} />
           <Route path="/userprofile" element={<MyProfile />} />
+          <Route path="/applyform" element={<Applyform />} />
 
           {/* <Route path="*" element={<h1 className="m-auto items-center justify-center">404 Page not Found</h1>}/> */}
           <Route

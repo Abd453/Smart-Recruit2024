@@ -17,6 +17,7 @@ export default function Home() {
   };
 
   return (
+    <div>
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
       <NavbarE />
@@ -58,7 +59,9 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <Footer />
+      
+    </div>
+    <Footer />
     </div>
   );
 }

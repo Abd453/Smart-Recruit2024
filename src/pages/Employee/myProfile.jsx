@@ -45,7 +45,7 @@ export default function MyProfile() {
   };
 
   return (
-
+    <div>
     <div className="flex flex-col min-h-screen ">
       <NavbarE />
 
@@ -186,7 +186,9 @@ export default function MyProfile() {
         </div>
       </div>
 
-      <Footer />
+      
+    </div>
+    <Footer />
     </div>
   );
 }

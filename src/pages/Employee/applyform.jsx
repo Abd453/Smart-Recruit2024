@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import  {useEffect} from 'react';
-import logo from "../../assets/logo.png";
+import logo from "../../assets/ie.png";
+import bgimg from "../../assets/bgImg/bgimg2.jpg"
+import NavbarE from './navbarE';
 import axios from "axios";
 import Footer from '../../components/Footer';
 
@@ -90,7 +92,12 @@ export default function ApplyForm() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto font-sans p-6">
+        <div>
+        <NavbarE />
+        <div className='  bg-cover bg-center flex'
+        style={{ backgroundImage: `url(${bgimg})` }}>
+        <div className="max-w-4xl  mx-auto font-sans p-6"
+        >
             <div className="text-center mb-16">
                 <a href="">
                     <img
@@ -99,7 +106,7 @@ export default function ApplyForm() {
                         className="w-52 inline-block"
                     />
                 </a>
-                <h4 className="text-gray-800 text-base font-semibold mt-6">
+                <h4 className="text-white text-base font-bold shadow-md shadow-black pb-8 pt-4 flex items-center justify-center mt-6">
                     Job Apply Form
                 </h4>
             </div>
@@ -107,7 +114,7 @@ export default function ApplyForm() {
             <form onSubmit={handleSubmit}>
                 <div className="grid sm:grid-cols-2 gap-8">
                 <div>
-                        <label className="text-gray-800 text-sm mb-2 block">Job Title</label>
+                        <label className="text-white text-sm mb-2 block">Job Title</label>
                         <select
                             name="jobtitle"
                             value={data.jobtitle}
@@ -122,7 +129,7 @@ export default function ApplyForm() {
                         {errors.jobtitle && <p className="text-red-500 text-sm">{errors.jobtitle}</p>}
                     </div>
                     <div>
-                        <label className="text-gray-800 text-sm mb-2 block">Full Name</label>
+                        <label className="text-white text-sm mb-2 block">Full Name</label>
                         <input
                             name="fullname"
                             type="text"
@@ -134,7 +141,7 @@ export default function ApplyForm() {
                         {errors.fullname && <p className="text-red-500 text-sm">{errors.fullname}</p>}
                     </div>
                     <div>
-                        <label className="text-gray-800 text-sm mb-2 block">Phone Number</label>
+                        <label className="text-white text-sm mb-2 block">Phone Number</label>
                         <input
                             name="phoneno"
                             type="text"
@@ -146,7 +153,7 @@ export default function ApplyForm() {
                         {errors.phoneno && <p className="text-red-500 text-sm">{errors.phoneno}</p>}
                     </div>
                     <div>
-                        <label className="text-gray-800 text-sm mb-2 block">Email</label>
+                        <label className="text-white text-sm mb-2 block">Email</label>
                         <input
                             name="email"
                             type="email"
@@ -158,7 +165,7 @@ export default function ApplyForm() {
                         {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                     </div>
                     <div>
-                        <label className="text-gray-800 text-sm mb-2 block">Physical Address</label>
+                        <label className="text-white text-sm mb-2 block">Physical Address</label>
                         <input
                             name="physicaladdress"
                             type="text"
@@ -170,7 +177,7 @@ export default function ApplyForm() {
                         {errors.physicaladdress && <p className="text-red-500 text-sm">{errors.physicaladdress}</p>}
                     </div>
                     <div>
-                        <label className="text-gray-800 text-sm mb-2 block">Upload CV</label>
+                        <label className="text-white text-sm mb-2 block">Upload CV</label>
                         <input
                             name="cv"
                             type="file"
@@ -190,7 +197,12 @@ export default function ApplyForm() {
                     </button>
                 </div>
             </form>
-            <Footer />
+            
+        </div>
+
+        
+        </div>
+        <Footer />
         </div>
     )
 }

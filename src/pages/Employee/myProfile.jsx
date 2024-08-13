@@ -3,52 +3,59 @@ import NavbarE from './navbarE';
 import Footer from '../../components/Footer';
 import pp from '../../assets/profile-pictures/user2.jpg';
 import { FaPen } from 'react-icons/fa';
-import bgimg from "../../assets/bgImg/bgimg2.jpg"
-
-// Importing the user data from the JSON file
-import authData from '../../data/auth.json'; // Assuming auth.json is in a data directory
+import bgimg from "../../assets/bgImg/bgimg2.jpg";
+import axios from 'axios'; // Import axios
+import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export default function MyProfile() {
-  // Initial state setup for the user
+  const location = useLocation();
+  const {userId} = useParams();
+  console.log("user id ",userId);
+
+
   const [user, setUser] = useState({
     id: '',
-    fullname: '',
-    phoneno:"",
+    fname: '',
+    lname: '',
+    phoneno: '',
     email: '',
     password: '',
-    physicaladdress : '',
+    physicaladdress: '',
   });
-
   const [isEditable, setIsEditable] = useState(false);
 
   // Load user data on component mount
   useEffect(() => {
-    // Simulate fetching user data from JSON
-    const userData = authData.signupuser.find((user) => user.id === '644c'); // Assume we get the first user by ID
-    if (userData) {
-      setUser(userData);
+    if (userId) {
+      axios.get(`http://localhost:8001/signupuser/${userId}`) // Fetch user data from backend
+        .then(res => {
+          setUser(res.data);
+        })
+        .catch(err => console.error(err));
     }
-  }, []);
+  }, [userId]);
 
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+    setUser(prevUser => ({ ...prevUser, [name]: value }));
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.get("http://localhost:8001/userapply")
-    // Update the user in auth.json
-    // In a real app, you would send a request to a backend server here
-    console.log('User data updated:', user);
+    axios.put(`http://localhost:8001/signupuser/${userId}`, user) // Update user data on backend
+      .then(res => {
+        alert('User data updated successfully');
+        setIsEditable(false);
+      })
+      .catch(err => console.error(err));
   };
 
   return (
-    <div >
     <div className="flex flex-col min-h-screen bg-cover bg-center"
-    style={{ backgroundImage: `url(${bgimg})` }}
+      style={{ backgroundImage: `url(${bgimg})` }}
     >
       <NavbarE />
 
@@ -91,6 +98,19 @@ export default function MyProfile() {
                     id="fname"
                     name="fname"
                     value={user.fname}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border rounded-lg"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="lname" className="block text-gray-700 font-bold mb-2">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="lname"
+                    name="lname"
+                    value={user.lname}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border rounded-lg"
                   />
@@ -138,23 +158,9 @@ export default function MyProfile() {
                   />
                 </div>
 
-                {/* <div className="mb-4">
-                  <label htmlFor="confirmPassword" className="block text-gray-700 font-bold mb-2">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={user.confirmPassword}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div> */}
-
                 <div className="mb-6">
-                  <label htmlFor="address" className="block text-gray-700 font-bold mb-2">
-                   Physical Address
+                  <label htmlFor="physicaladdress" className="block text-gray-700 font-bold mb-2">
+                    Physical Address
                   </label>
                   <input
                     type="text"
@@ -176,22 +182,19 @@ export default function MyProfile() {
             ) : (
               <div className="space-y-4">
                 <h3 className="text-2xl font-semibold text-gray-800">
-                  Profile 
+                  Profile
                 </h3>
                 <p className="text-gray-700">
-                  {user.fname} {user.lname} <br></br> {user.address} <br></br> {user.email}, for any inquiries.
+                  {user.fname} {user.lname} <br />
+                  {user.physicaladdress} <br />
+                  {user.email}
                 </p>
-
-               
               </div>
             )}
           </div>
         </div>
       </div>
-
-      
-    </div>
-    <Footer />
+      <Footer />
     </div>
   );
 }

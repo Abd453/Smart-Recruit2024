@@ -10,8 +10,10 @@ import Db from '../../data/db.json'; // Ensure this import is correct
 import experience from '../../assets/landingPageImg/experience.jpg';
 import cases from '../../assets/landingPageImg/cases.jpg';
 import partner from '../../assets/landingPageImg/partner.jpg';
+import { Link } from 'react-router-dom';
 
-const Cards = () => {
+
+const Cards = ({ userId }) => {
   const [currentSection, setCurrentSection] = useState(0);
   const [animationClass, setAnimationClass] = useState('fadeIn');
 
@@ -80,9 +82,11 @@ const Cards = () => {
                 <p className="text-sm text-gray-600 pt-4 border-t-2 mt-4 group-hover:text-white">
                   {db.description}
                 </p>
+                <Link to={`/applyform/${userId}`} >
                 <button className="border-2 rounded-lg block p-2 w-full text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition duration-300">
                   Apply Now
                 </button>
+                </Link>
               </div>
             </div>
           ))}

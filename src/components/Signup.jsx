@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import logo from '../assets/ie.png';
 import axios from 'axios';
 import Footer from './Footer';
 import bgimg from "../assets/bgImg/bgimg2.jpg"
-
 
 export default function Signup() {
   const [data, setData] = useState({
@@ -13,12 +12,24 @@ export default function Signup() {
     email: '',
     password: '',
     confirmpass: '',
-    address: '',
+    physicaladdress: '',
   });
   const [errors, setErrors] = useState({});
   const [valid, setValid] = useState(true);
 
   const navigate = useNavigate(); // Initialize navigate
+
+  useEffect(() => {
+    // Reset the form state when the component mounts
+    setData({
+      fname: '',
+      lname: '',
+      email: '',
+      password: '',
+      confirmpass: '',
+      physicaladdress: '',
+    });
+  }, []); // Empty dependency array ensures this runs only on component mount
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,7 +81,7 @@ export default function Signup() {
             email: '',
             password: '',
             confirmpass: '',
-            address: '',
+            physicaladdress: '',
           });
 
           // Redirect to login page
@@ -82,7 +93,7 @@ export default function Signup() {
 
   return (
     <div>
-    <div className='  bg-cover bg-center flex'
+    <div className='bg-cover bg-center flex'
     style={{ backgroundImage: `url(${bgimg})` }}>
     <div className="max-w-4xl mx-auto font-sans p-6">
       <div className="text-center mb-16">
@@ -173,17 +184,17 @@ export default function Signup() {
             )}
           </div>
           <div>
-            <label className="text-white text-md mb-2 block">Address</label>
+            <label className="text-white text-md mb-2 block">Physical Address</label>
             <input
-              name="address"
+              name="physicaladdress"
               type="text"
-              value={data.address}
+              value={data.physicaladdress}
               onChange={handleChange}
               className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Address"
+              placeholder="Physical address"
             />
-            {errors.address && (
-              <p className="text-red-500 text-sm">{errors.address}</p>
+            {errors.physicaladdress && (
+              <p className="text-red-500 text-sm">{errors.physicaladdress}</p>
             )}
           </div>
         </div>

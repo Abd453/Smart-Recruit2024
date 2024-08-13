@@ -5,7 +5,9 @@ import ielogo from '../assets/logo.png';
 import ielogoo from '../assets/ielogoo.jpg';
 
 const Login = () => {
+  
   const [Data, setData] = useState({
+    id: "",
     email: '',
     password: '',
   });
@@ -16,49 +18,48 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let isValid = true; // Correct the spelling of 'isValid'
+    let isValid = true;
     let validationErrors = {};
-
+  
     // Validate email
     if (Data.email === '' || Data.email === null) {
       isValid = false;
-      validationErrors.email = 'Email required'; // Correct field name to email
+      validationErrors.email = 'Email required';
     }
-
+  
     // Validate password
     if (Data.password === '' || Data.password === null) {
       isValid = false;
-      validationErrors.password = 'Password required'; // Correct field name to password
+      validationErrors.password = 'Password required';
     } else if (Data.password.length < 2) {
       isValid = false;
       validationErrors.password = 'Minimum length is 2';
     }
-
+  
     // Set errors and validation state
     setErrors(validationErrors);
     setValid(isValid);
-
-    // Proceed only if the form is valid
+  
     if (isValid) {
       axios
         .get('http://localhost:8001/signupuser')
         .then((result) => {
-          let loginSuccessful = false; // Track login success
-
+          let loginSuccessful = false;
+          let userId = null; // To store the user ID
+  
           result.data.forEach((user) => {
             if (user.email === Data.email) {
               if (user.password === Data.password) {
                 alert('Login successfully');
                 loginSuccessful = true;
-                setValidatorTo(true);
+                userId = user.id; // Capture the user ID
               } else {
                 isValid = false;
-                validationErrors.password = 'or Wrong password';
+                validationErrors.password = 'Wrong password';
               }
             }
           });
-
-          // Check loginSuccessful outside the loop
+  
           if (!loginSuccessful) {
             if (Data.email !== '') {
               validationErrors.email = 'Wrong email address';
@@ -67,15 +68,16 @@ const Login = () => {
             setValid(isValid);
             setValidatorTo(false);
           } else {
-            // Navigate to home page after successful login
-            navigate('/employeehome'); // Use navigate to redirect
+            // Navigate to the next page with user ID
+            navigate('/employeehome', { state: { userId } });
           }
         })
         .catch((err) => console.log(err));
     } else {
-      setValidatorTo(false); // Ensure validatorTo remains false if form is invalid
+      setValidatorTo(false);
     }
   };
+  
 
   console.log(Data); // For debugging, log the current Data state
 

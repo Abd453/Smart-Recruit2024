@@ -61,8 +61,8 @@ const App = () => {
           <Route path="/managerhome" element={<ManagerH />} />
           <Route path="/employee" element={<EmployeeL />} />
           <Route path="/employeehome" element={<EmployeeH />} />
-          <Route path="/userprofile" element={<MyProfile />} />
-          <Route path="/applyform" element={<Applyform />} />
+          <Route path="/userprofile/:userId" element={<MyProfile />} />
+          <Route path="/applyform/:userId" element={<Applyform />} />
 
           {/* <Route path="*" element={<h1 className="m-auto items-center justify-center">404 Page not Found</h1>}/> */}
           <Route

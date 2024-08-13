@@ -5,8 +5,12 @@ import bgimg from "../../assets/bgImg/bgimg2.jpg"
 import NavbarE from './navbarE';
 import axios from "axios";
 import Footer from '../../components/Footer';
+import { useParams } from 'react-router-dom';
+
 
 export default function ApplyForm() {
+    const {userId} = useParams();
+    console.log("user id ",userId);
     const [data, setData] = useState({
         jobtitle: "",
         fname: "",
@@ -25,6 +29,15 @@ export default function ApplyForm() {
             })
             .catch(err => console.log(err));
     }, []);
+    useEffect(() => {
+        if (userId) {
+          axios.get(`http://localhost:8001/signupuser/${userId}`) // Fetch user data from backend
+            .then(res => {
+              setUser(res.data);
+            })
+            .catch(err => console.error(err));
+        }
+      }, [userId]);
 
     
     const [errors, setErrors] = useState({});
@@ -79,8 +92,8 @@ export default function ApplyForm() {
         if (isValid) {
             
 
-            axios
-            .post('http://localhost:8001/userapply', data) 
+            
+            axios.put(`http://localhost:8001/signupuser/${userId}`, data) // Update user data on backend
             .then(result => {
                     alert("Success");
                     setData({
@@ -90,6 +103,7 @@ export default function ApplyForm() {
                         phoneno: "",
                         email: "",
                         physicaladdress: "",
+                        password:"",
                         cv: null
                     });
                 })
@@ -99,7 +113,7 @@ export default function ApplyForm() {
 
     return (
         <div>
-        <NavbarE />
+        <NavbarE userId={userId}/>
         <div className='  bg-cover bg-center flex'
         style={{ backgroundImage: `url(${bgimg})` }}>
         <div className="max-w-4xl  mx-auto font-sans p-6"

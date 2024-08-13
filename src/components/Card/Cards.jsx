@@ -6,10 +6,6 @@ import { RiMoneyDollarBoxLine } from 'react-icons/ri';
 import Db from '../../data/db.json'; // Ensure this import is correct
 // import Testimonials from '../Testimonial/Testimonials';
 
-// Import images
-import experience from '../../assets/landingPageImg/experience.jpg';
-import cases from '../../assets/landingPageImg/cases.jpg';
-import partner from '../../assets/landingPageImg/partner.jpg';
 import { Link } from 'react-router-dom';
 
 

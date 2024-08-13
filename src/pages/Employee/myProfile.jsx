@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import NavbarE from './navbarE';
 import Footer from '../../components/Footer';
-import pp from '../../assets/profile-pictures/user2.jpg';
+import pp from '../../assets/profile-pictures/user3.jpg';
 import { FaPen } from 'react-icons/fa';
 import bgimg from "../../assets/bgImg/bgimg2.jpg";
 import axios from 'axios'; // Import axios
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { MdOutlinePendingActions } from "react-icons/md";
+
 
 export default function MyProfile() {
   const location = useLocation();
@@ -72,6 +74,13 @@ export default function MyProfile() {
               {user.fname} {user.lname}
             </h2>
             <p className="text-gray-700">{user.email}</p>
+
+            <div className='flex items-center '>
+              <h1 className='font-bold pr-3'>Status:-</h1>
+              <h2 className='pr-3 '>Pending</h2>
+            <MdOutlinePendingActions />
+            </div>
+
           </div>
         </div>
 

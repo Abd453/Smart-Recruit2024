@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import { useParams } from 'react-router-dom';
 
 
+
 export default function ApplyForm() {
     const {userId} = useParams();
     console.log("user id ",userId);
@@ -113,6 +114,7 @@ export default function ApplyForm() {
 
     return (
         <div>
+            
         <NavbarE userId={userId}/>
         <div className='  bg-cover bg-center flex'
         style={{ backgroundImage: `url(${bgimg})` }}>

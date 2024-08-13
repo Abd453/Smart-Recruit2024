@@ -13,7 +13,7 @@ import partner from '../../assets/landingPageImg/partner.jpg';
 import { Link } from 'react-router-dom';
 
 
-const Cards = ({ userId }) => {
+const Cards = ({ userId , disapply = true}) => {
   const [currentSection, setCurrentSection] = useState(0);
   const [animationClass, setAnimationClass] = useState('fadeIn');
 
@@ -82,11 +82,15 @@ const Cards = ({ userId }) => {
                 <p className="text-sm text-gray-600 pt-4 border-t-2 mt-4 group-hover:text-white">
                   {db.description}
                 </p>
+                {disapply && (
+                <div> 
                 <Link to={`/applyform/${userId}`} >
                 <button className="border-2 rounded-lg block p-2 w-full text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition duration-300">
                   Apply Now
                 </button>
                 </Link>
+                </div>)}
+
               </div>
             </div>
           ))}
@@ -123,30 +127,7 @@ const Cards = ({ userId }) => {
         </div>
       </div>
 
-      {/* <section className="grid sm:grid-cols-3 gap-6 items-center mt-16">
-        <div className="flex flex-col items-center text-center bg-white border rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <img src={experience} alt="Experience" className="w-16 h-16 mb-4" />
-          <h5 className="font-bold text-2xl text-blue-600 mb-2">10+</h5>
-          <p>Years Experience</p>
-        </div>
-        <div className="flex flex-col items-center text-center bg-white border rounded-lg shadow-md p-6 transition-transform transform hover:scale-105 hover:shadow-[0_4px_6px_rgba(139,69,19,0.3)]">
-          <img src={cases} alt="Cases Solved" className="w-16 h-16 mb-4" />
-          <h5 className="font-bold text-2xl text-blue-600 mb-2">890</h5>
-          <p>Cases Solved</p>
-        </div>
-        <div className="flex flex-col items-center text-center bg-white border rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
-          <img
-            src={partner}
-            alt="Business Partners"
-            className="w-16 h-16 mb-4"
-          />
-          <h5 className="font-bold text-2xl text-blue-600 mb-2">250</h5>
-          <p>Business Partners</p>
-        </div>
-      </section> */}
-      {/* <section className="mt-10">
-        <Testimonials />
-      </section> */}
+      
     </div>
   );
 };

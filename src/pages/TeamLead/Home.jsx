@@ -27,7 +27,7 @@ export default function Home() {
         </h1>
       </div>
 
-      <Cards />
+      <Cards disapply = {false} />
       <Footer />
     </div>
   );

@@ -19,6 +19,7 @@ export default function Home() {
   };
 
   return (
+    
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
       <NavbarE userId={userId} />
@@ -61,7 +62,7 @@ export default function Home() {
         className="w-full p-6 md:p-12"
       >
         <div className="w-full max-w-4xl mx-auto">
-          <Cards userId={userId}/>
+          <Cards userId={userId} />
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import axios from 'axios';
 import Db from "../../data/auth.json";
 import Footer from '../../components/Footer';
 import Navbar from './navbarM';
+import bgimg from "../../assets/bgImg/bgimg2.jpg"
 
 const Jobs = () => {
   // Initialize state to track status for each job
@@ -44,11 +45,14 @@ const Jobs = () => {
 
   return (
     <div>
-        <Navbar />
+      <Navbar />
+      <div className='  bg-cover bg-center flex'
+        style={{ backgroundImage: `url(${bgimg})` }}>
+        
       <div className="flex gap-10 justify-center flex-wrap items-center py-10">
         {
           Db.jobs.map((db) => (
-            <div key={db.id} className="mt-10 group group/item w-[250px] p-[20px] rounded-[10px]
+            <div key={db.id} className="mt-10 group group/item w-[250px] p-[20px] bg-white rounded-[10px]
               hover:bg-gradient-to-r from-[#868686] to-[#eea12f] shadow-lg shadow-greyIsh-400/700 hover:shadow-lg">
               <span className="flex justify-between items-center gap-4 pb-5">
                 <h1 className='text-[24px]'>{db.title}</h1>
@@ -95,7 +99,9 @@ const Jobs = () => {
           ))
         }
       </div>
+      </div>
       <Footer />
+
     </div>
   )
 }

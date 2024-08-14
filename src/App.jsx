@@ -27,6 +27,13 @@ import Applyform from './pages/Employee/applyform';
 import Testimonials from './components/Testimonial/Testimonials'; //Testimonials
 import Experience from './components/Experience/Experience';
 
+import Talk from './components/Talks/Talk';
+import Faqs from './components/FAQS/FAQs';
+
+import Wedo from './components/Wedo/Wedo';
+
+import Features from './components/Features/Features';
+
 const App = () => {
   return (
     <>
@@ -41,7 +48,11 @@ const App = () => {
                 <div className="max-w-7xl mx-auto pt-20 px-6">
                   <HeroSection />
                   <Cards />
+                  <Wedo />
+                  <Features />
                   <Experience />
+                  <Faqs />
+                  <Talk />
                   <Testimonials />
                 </div>
                 <Footer />

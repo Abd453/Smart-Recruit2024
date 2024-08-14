@@ -44,11 +44,11 @@ const Cards = ({ userId , disapply = true}) => {
 
   return (
     <div className="relative py-10">
-      <div className="flex mt-10 justify-center">
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide bg-gradient-to-r from-blue-500 to-blue-800 text-transparent bg-clip-text">
-          Current Openings
-        </h1>
-      </div>
+      <div className="flex flex-col items-center mt-6 lg:mt-20 bg-gradient-to-r from-blue-800 to-pink-600 text-white p-8">
+      <h1 className="text-4xl sm:text-6xl lg:text-7xl text-center tracking-wide bg-gradient-to-r from-blue-500 to-blue-800 text-transparent bg-clip-text">
+        Current Openings
+      </h1>
+    </div>
       <div className="relative overflow-hidden">
         <div
           className={`flex transition-transform duration-500 ease-in-out ${animationClass}`}

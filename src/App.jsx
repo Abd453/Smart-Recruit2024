@@ -33,6 +33,8 @@ import Faqs from './components/FAQS/FAQs';
 import Wedo from './components/Wedo/Wedo';
 
 import Features from './components/Features/Features';
+import Jobstable from './pages/Manager/jobstable';
+
 
 const App = () => {
   return (
@@ -74,6 +76,7 @@ const App = () => {
           <Route path="/employeehome" element={<EmployeeH />} />
           <Route path="/userprofile/:userId" element={<MyProfile />} />
           <Route path="/applyform/:userId" element={<Applyform />} />
+          <Route path="/jobstable" element={<Jobstable />} />
 
           {/* <Route path="*" element={<h1 className="m-auto items-center justify-center">404 Page not Found</h1>}/> */}
           <Route

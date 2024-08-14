@@ -4,7 +4,6 @@ import Cards from './components/Card/Cards';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Footer from './components/Footer';
-
 import Login from './components/Login';
 import LoginT from './pages/TeamLead/LoginT';
 import Signup from './components/Signup';
@@ -75,7 +74,7 @@ const App = () => {
           <Route path="/employee" element={<EmployeeL />} />
           <Route path="/employeehome" element={<EmployeeH />} />
           <Route path="/userprofile/:userId" element={<MyProfile />} />
-          <Route path="/applyform/:userId" element={<Applyform />} />
+          <Route path="/applyform/:userId/:jobTitle" element={<Applyform />} />
           <Route path="/jobstable" element={<Jobstable />} />
 
           {/* <Route path="*" element={<h1 className="m-auto items-center justify-center">404 Page not Found</h1>}/> */}

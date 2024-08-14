@@ -10,10 +10,10 @@ import Db from '../../data/db.json'; // Ensure this import is correct
 import { Link } from 'react-router-dom';
 
 
-const Cards = ({ userId , disapply = true}) => {
+const Cards = ({ userId , disapply = true , jobTitle}) => {
   const [currentSection, setCurrentSection] = useState(0);
   const [animationClass, setAnimationClass] = useState('fadeIn');
-
+  
   const cardsPerSection = 3;
   const totalSections = Math.ceil(Db.length / cardsPerSection);
 
@@ -81,11 +81,12 @@ const Cards = ({ userId , disapply = true}) => {
                 </p>
                 {disapply && (
                 <div> 
-                <Link to={`/applyform/${userId}`} >
-                <button className="border-2 rounded-lg block p-2 w-full text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition duration-300">
-                  Apply Now
-                </button>
-                </Link>
+              <Link to={`/applyform/${userId}/${encodeURIComponent(db.title)}`} >
+                  <button className="border-2 rounded-lg block p-2 w-full text-sm font-semibold bg-blue-500 text-white hover:bg-blue-600 transition duration-300">
+                      Apply Now
+                  </button>
+               </Link>
+
                 </div>)}
 
               </div>

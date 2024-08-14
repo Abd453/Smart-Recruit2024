@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import  {useEffect} from 'react';
-import logo from "../../assets/ie.png";
-import bgimg from "../../assets/bgImg/bgimg2.jpg"
-import NavbarE from './navbarE';
-import axios from "axios";
-import Footer from '../../components/Footer';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
-
+import logo from "../../assets/ie.png";
+import bgimg from "../../assets/bgImg/bgimg2.jpg";
+import NavbarE from './navbarE';
+import Footer from '../../components/Footer';
 
 export default function ApplyForm() {
-    const {userId} = useParams();
-    console.log("user id ",userId);
+    const { userId, jobTitle } = useParams();
+    console.log("User ID:", userId);
+    console.log("Job Title:", jobTitle);
+
     const [data, setData] = useState({
-        jobtitle: "",
+        jobtitle: decodeURIComponent(jobTitle) || "",  // Decode the job title
         fname: "",
         lname: "",
         phoneno: "",
@@ -21,37 +20,30 @@ export default function ApplyForm() {
         physicaladdress: "",
         cv: null
     });
-    const [jobOptions, setJobOptions] = useState([]);
-    useEffect(() => {
-        // Fetch job titles and their IDs from the server
-        axios.get('http://localhost:8001/jobs')
-            .then(response => {
-                setJobOptions(response.data);
-            })
-            .catch(err => console.log(err));
-    }, []);
-    useEffect(() => {
-        if (userId) {
-          axios.get(`http://localhost:8001/signupuser/${userId}`) // Fetch user data from backend
-            .then(res => {
-              setUser(res.data);
-            })
-            .catch(err => console.error(err));
-        }
-      }, [userId]);
-
-    
     const [errors, setErrors] = useState({});
     const [valid, setValid] = useState(true);
 
+    useEffect(() => {
+        if (userId) {
+            axios.get(`http://localhost:8001/signupuser/${userId}`)
+                .then(res => {
+                    setData(prevData => ({
+                        ...prevData,
+                        ...res.data
+                    }));
+                })
+                .catch(err => console.error(err));
+        }
+    }, [userId]);
+
     const handleChange = (e) => {
         const { name, value, files } = e.target;
-        setData((prevData) => ({
+        setData(prevData => ({
             ...prevData,
             [name]: value,
-          }));
-        };
-      
+            cv: files ? files[0] : prevData.cv
+        }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -91,11 +83,13 @@ export default function ApplyForm() {
         setValid(isValid);
 
         if (isValid) {
-            
+            const formData = new FormData();
+            Object.keys(data).forEach(key => {
+                formData.append(key, data[key]);
+            });
 
-            
-            axios.put(`http://localhost:8001/signupuser/${userId}`, data) // Update user data on backend
-            .then(result => {
+            axios.post(`http://localhost:8001/submit`, formData)
+                .then(result => {
                     alert("Success");
                     setData({
                         jobtitle: "",
@@ -104,7 +98,6 @@ export default function ApplyForm() {
                         phoneno: "",
                         email: "",
                         physicaladdress: "",
-                        password:"",
                         cv: null
                     });
                 })
@@ -114,129 +107,117 @@ export default function ApplyForm() {
 
     return (
         <div>
-            
-        <NavbarE userId={userId}/>
-        <div className='  bg-cover bg-center flex'
-        style={{ backgroundImage: `url(${bgimg})` }}>
-        <div className="max-w-4xl  mx-auto font-sans p-6"
-        >
-            <div className="text-center mb-16">
-                <a href="">
-                    <img
-                        src={logo}
-                        alt="logo"
-                        className="w-52 inline-block"
-                    />
-                </a>
-                <h4 className="text-white text-base font-bold shadow-md shadow-black pb-8 pt-4 flex items-center justify-center mt-6">
-                    Job Apply Form
-                </h4>
+            <NavbarE userId={userId} />
+            <div className='bg-cover bg-center flex' style={{ backgroundImage: `url(${bgimg})` }}>
+                <div className="max-w-4xl mx-auto font-sans p-6">
+                    <div className="text-center mb-16">
+                        <a href="">
+                            <img src={logo} alt="logo" className="w-52 inline-block" />
+                        </a>
+                        <h4 className="text-white text-base font-bold shadow-md shadow-black pb-8 pt-4 flex items-center justify-center mt-6">
+                            Job Apply Form
+                        </h4>
+                    </div>
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid sm:grid-cols-2 gap-8">
+                            <div>
+                                <label className="text-white text-sm mb-2 block">Job Title</label>
+                                <input
+                                    name="jobtitle"
+                                    type="text"
+                                    value={data.jobtitle}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    placeholder="Job title"
+                                    readOnly
+                                />
+                                {errors.jobtitle && <p className="text-red-500 text-sm">{errors.jobtitle}</p>}
+                            </div>
+                            <div>
+                                <label className="text-white text-sm mb-2 block">First Name</label>
+                                <input
+                                    name="fname"
+                                    type="text"
+                                    value={data.fname}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    placeholder="First name"
+                                />
+                                {errors.fname && <p className="text-red-500 text-sm">{errors.fname}</p>}
+                            </div>
+                            <div>
+                                <label className="text-white text-sm mb-2 block">Last Name</label>
+                                <input
+                                    name="lname"
+                                    type="text"
+                                    value={data.lname}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    placeholder="Last name"
+                                />
+                                {errors.lname && <p className="text-red-500 text-sm">{errors.lname}</p>}
+                            </div>
+                            <div>
+                                <label className="text-white text-sm mb-2 block">Phone Number</label>
+                                <input
+                                    name="phoneno"
+                                    type="text"
+                                    value={data.phoneno}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    placeholder="Phone number"
+                                />
+                                {errors.phoneno && <p className="text-red-500 text-sm">{errors.phoneno}</p>}
+                            </div>
+                            <div>
+                                <label className="text-white text-sm mb-2 block">Email</label>
+                                <input
+                                    name="email"
+                                    type="email"
+                                    value={data.email}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    placeholder="Email"
+                                />
+                                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                            </div>
+                            <div>
+                                <label className="text-white text-sm mb-2 block">Physical Address</label>
+                                <input
+                                    name="physicaladdress"
+                                    type="text"
+                                    value={data.physicaladdress}
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                    placeholder="Physical address"
+                                />
+                                {errors.physicaladdress && <p className="text-red-500 text-sm">{errors.physicaladdress}</p>}
+                            </div>
+                            <div>
+                                <label className="text-white text-sm mb-2 block">Upload CV</label>
+                                <input
+                                    name="cv"
+                                    type="file"
+                                    onChange={handleChange}
+                                    className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
+                                />
+                                {errors.cv && <p className="text-red-500 text-sm">{errors.cv}</p>}
+                            </div>
+                        </div>
+
+                        <div className="mt-12 flex justify-center">
+                            <button
+                                type="submit"
+                                className="py-3 px-6 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <form onSubmit={handleSubmit}>
-                <div className="grid sm:grid-cols-2 gap-8">
-                <div>
-                        <label className="text-white text-sm mb-2 block">Job Title</label>
-                        <select
-                            name="jobtitle"
-                            value={data.jobtitle}
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                        >
-                            <option value="">Select Job Title</option>
-                            {jobOptions.map(job => (
-                                <option key={job.id} value={job.id}>{job.title}</option>
-                            ))}
-                        </select>
-                        {errors.jobtitle && <p className="text-red-500 text-sm">{errors.jobtitle}</p>}
-                    </div>
-                    <div>
-                        <label className="text-white text-sm mb-2 block">First Name</label>
-                        <input
-                            name="fname"
-                            type="text"
-                            value={data.fname}
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            placeholder="First name"
-                        />
-                        {errors.fname && <p className="text-red-500 text-sm">{errors.fname}</p>}
-                    </div>
-                    <div>
-                        <label className="text-white text-sm mb-2 block">Last Name</label>
-                        <input
-                            name="lname"
-                            type="text"
-                            value={data.lname}
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            placeholder="Last name"
-                        />
-                        {errors.lname && <p className="text-red-500 text-sm">{errors.lname}</p>}
-                    </div>
-                    <div>
-                        <label className="text-white text-sm mb-2 block">Phone Number</label>
-                        <input
-                            name="phoneno"
-                            type="text"
-                            value={data.phoneno}
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            placeholder="Phone number"
-                        />
-                        {errors.phoneno && <p className="text-red-500 text-sm">{errors.phoneno}</p>}
-                    </div>
-                    <div>
-                        <label className="text-white text-sm mb-2 block">Email</label>
-                        <input
-                            name="email"
-                            type="email"
-                            value={data.email}
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            placeholder="Email"
-                        />
-                        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-                    </div>
-                    <div>
-                        <label className="text-white text-sm mb-2 block">Physical Address</label>
-                        <input
-                            name="physicaladdress"
-                            type="text"
-                            value={data.physicaladdress}
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                            placeholder="Physical address"
-                        />
-                        {errors.physicaladdress && <p className="text-red-500 text-sm">{errors.physicaladdress}</p>}
-                    </div>
-                    <div>
-                        <label className="text-white text-sm mb-2 block">Upload CV</label>
-                        <input
-                            name="cv"
-                            type="file"
-                            onChange={handleChange}
-                            className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
-                        />
-                        {errors.cv && <p className="text-red-500 text-sm">{errors.cv}</p>}
-                    </div>
-                </div>
-
-                <div className="mt-12 flex justify-center">
-                    <button
-                        type="submit"
-                        className="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-                    >
-                        Submit
-                    </button>
-                </div>
-            </form>
-            
+            <Footer />
         </div>
-
-        
-        </div>
-        <Footer />
-        </div>
-    )
+    );
 }

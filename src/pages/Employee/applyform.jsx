@@ -49,7 +49,8 @@ export default function ApplyForm() {
         e.preventDefault();
         let isValid = true;
         let validationErrors = {};
-
+    
+        // Validation logic
         if (data.jobtitle === "") {
             isValid = false;
             validationErrors.jobtitle = "Job title required";
@@ -78,32 +79,52 @@ export default function ApplyForm() {
             isValid = false;
             validationErrors.cv = "CV required";
         }
-
+    
         setErrors(validationErrors);
         setValid(isValid);
-
+    
         if (isValid) {
-            const formData = new FormData();
-            Object.keys(data).forEach(key => {
-                formData.append(key, data[key]);
-            });
-
-            axios.post(`http://localhost:8001/submit`, formData)
-                .then(result => {
-                    alert("Success");
-                    setData({
-                        jobtitle: "",
-                        fname: "",
-                        lname: "",
-                        phoneno: "",
-                        email: "",
-                        physicaladdress: "",
-                        cv: null
-                    });
+            // Fetch existing data from server
+            axios.get(`http://localhost:8001/signupuser/${userId}`)
+                .then(response => {
+                    const existingData = response.data;
+    
+                    // Merge existing data with new data
+                    const updatedData = {
+                        ...existingData,
+                        jobtitle: data.jobtitle,
+                        fname: data.fname,
+                        lname: data.lname,
+                        phoneno: data.phoneno,
+                        email: data.email,
+                        physicaladdress: data.physicaladdress,
+                        cv: data.cv ? data.cv.name : existingData.cv // Preserve existing CV if no new file is uploaded
+                    };
+    
+                    // Send merged data to server
+                    axios.put(`http://localhost:8001/signupuser/${userId}`, updatedData, {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(result => {
+                        alert("Success");
+                        setData({
+                            jobtitle: "",
+                            fname: "",
+                            lname: "",
+                            phoneno: "",
+                            email: "",
+                            physicaladdress: "",
+                            cv: null
+                        });
+                    })
+                    .catch(err => console.log(err));
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.error(err));
         }
     };
+    
 
     return (
         <div>

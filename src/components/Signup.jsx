@@ -70,9 +70,13 @@ export default function Signup() {
     setValid(isValid);
 
     if (isValid) {
-      const fullname = `${data.fname} ${data.lname}`;
+      // Add role to the data object
+      const userData = {
+        ...data,
+        role: 'employee', // Set role to 'user' by default
+      };
       axios
-        .post('http://localhost:8001/signupuser', data)
+        .post('http://localhost:8001/signupuser', userData)
         .then((result) => {
           alert('Success');
           setData({
@@ -82,6 +86,7 @@ export default function Signup() {
             password: '',
             confirmpass: '',
             physicaladdress: '',
+            
           });
 
           // Redirect to login page
@@ -197,6 +202,8 @@ export default function Signup() {
               <p className="text-red-500 text-sm">{errors.physicaladdress}</p>
             )}
           </div>
+
+   
         </div>
 
         <div className="mt-12 flex justify-center ">

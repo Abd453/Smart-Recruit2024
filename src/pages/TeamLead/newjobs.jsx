@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from "../../assets/logo.png";
 import axios from "axios";
 import Footer from '../../components/Footer';
+import Db from '../../data/db.json'; // Ensure this import is correct
 
 export default function NewJobs() {
     const [data, setData] = useState({
@@ -14,13 +15,22 @@ export default function NewJobs() {
     });
     const [errors, setErrors] = useState({});
     const [valid, setValid] = useState(true);
+    const [jobTitles, setJobTitles] = useState([]);
+
+    useEffect(() => {
+        if (Array.isArray(Db)) {
+            const titles = Db.map(job => job.title);
+            setJobTitles(titles);
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData(prevData => ({
           ...prevData,
           [name]: value
-        }))};
+        }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -77,14 +87,18 @@ export default function NewJobs() {
                 <div className="grid sm:grid-cols-2 gap-8">
                     <div>
                         <label className="text-gray-800 text-sm mb-2 block">Job Title</label>
-                        <input
+                        <select
                             name="title"
-                            type="text"
                             value={data.title}
                             onChange={handleChange}
                             className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all"
                             placeholder="Job title"
-                        />
+                        >
+                            <option value="">Select Job Title</option>
+                            {jobTitles.map((title, index) => (
+                                <option key={index} value={title}>{title}</option>
+                            ))}
+                        </select>
                         {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
                     </div>
                     <div>
@@ -157,7 +171,7 @@ export default function NewJobs() {
                     </button>
                 </div>
             </form>
-        <Footer />
+            <Footer />
         </div>
     );
 }

@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ielogo from '../assets/logo.png';
-import ielogoo from '../assets/ielogoo.jpg';
+import ielogo from '../assets/ie.png';
+import ielogoo from '../assets/rm222batch5-kul-03.jpg';
 import { AuthContext } from '../utils/AuthContext';
 
 const Login = () => {
@@ -12,6 +12,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [isValid, setValid] = useState(true);
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
 
@@ -94,16 +95,18 @@ const Login = () => {
     }
   };
 
-  console.log('Current Data State:', Data);
-  console.log('Current Errors State:', errors);
+  // Function to toggle password visibility
+  const handleShowPasswordToggle = () => {
+    setShowPassword(prevState => !prevState);
+  };
 
   return (
     <section
       className="bg-gradient-to-r h-screen flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-16 items-center my-2 mx-5 md:mx-0 md:my-0 bg-cover bg-center"
       style={{ backgroundImage: `url(${ielogoo})` }}
     >
-      <div className="md:w-1/3 max-w-sm ">
-        <img src={ielogo} alt="Sample image" />
+      <div className="md:w-1/3 max-w-sm">
+        <img className="w-2/3" src={ielogo} alt="Sample image" />
       </div>
       <div className="md:w-1/3 max-w-sm">
         <div className="my-5 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
@@ -130,15 +133,32 @@ const Login = () => {
                   setData({ ...Data, email: event.target.value })
                 }
               />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full bg-transparent text-black border-b border-black bg-white rounded px-4 py-2 mb-2 outline-none focus:outline-none"
-                style={{
-                  boxShadow: '0 4px 6px -1px rgba(70, 130, 180, 0.7)',
-                }}
-                onChange={(e) => setData({ ...Data, password: e.target.value })}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  className="w-full bg-transparent text-black border-b border-black bg-white rounded px-4 py-2 mb-2 outline-none focus:outline-none"
+                  style={{
+                    boxShadow: '0 4px 6px -1px rgba(70, 130, 180, 0.7)',
+                  }}
+                  onChange={(e) => setData({ ...Data, password: e.target.value })}
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                  onClick={handleShowPasswordToggle}
+                >
+                  {showPassword ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.172 15.172a4.992 4.992 0 0 0 0-6.344m-6.344 0a4.992 4.992 0 0 0 0 6.344m6.344 0L21 12m-9-9L3 12l9 9M12 3l9 9-9 9" />
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8.25a3.75 3.75 0 1 1 0 7.5m0-7.5a8.25 8.25 0 0 0-8.25 8.25M3 12a9 9 0 0 1 9-9m9 9a9 9 0 0 1-9 9M12 15.75a3.75 3.75 0 0 0 0-7.5m0 7.5a8.25 8.25 0 0 1-8.25-8.25m16.5 8.25A8.25 8.25 0 0 0 21 12" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="mt-4 flex justify-between font-semibold text-sm">

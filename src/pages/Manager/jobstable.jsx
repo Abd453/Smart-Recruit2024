@@ -45,6 +45,22 @@ export default function Jobstable() {
         { name: "money", label: "Salary" },
         { name: "status", label: "Status" },
         {
+            name: "description",
+            label: "Description",
+            options: {
+                customBodyRender: (value) => {
+                    return (
+                        <a href={value} target="_blank" rel="noopener noreferrer">
+                            show more....
+                        </a>
+                    );
+                }
+            }
+        },
+
+        
+
+        {
             name: "status",
             label: "Status",
             options: {

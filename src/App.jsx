@@ -1,18 +1,22 @@
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import Cards from './components/Card/Cards';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './utils/AuthContext';
+import PrivateRoutes from './utils/PrivateRoutes';
+
 
 import Footer from './components/Footer';
 import Login from './components/Login';
-import LoginT from './pages/TeamLead/LoginT';
+
 import Signup from './components/Signup';
-import TeamleadL from './pages/TeamLead/LoginT';
+import TeamleadL from './components/Login';
 import TeamleadH from './pages/TeamLead/Home';
-import Navbart from './pages/TeamLead/navbarT';
 import Newjobs from './pages/TeamLead/newjobs';
 
-import ManagerL from './pages/Manager/LoginM';
+import ManagerL from './components/Login';
 import ManagerH from './pages/Manager/Home';
 import Jobstobe from './pages/Manager/jobstobe';
 
@@ -37,8 +41,8 @@ import Jobstable from './pages/Manager/jobstable';
 
 const App = () => {
   return (
-    <>
-      <BrowserRouter>
+    <AuthProvider>
+      <Router>
         <Routes>
           <Route
             path="/"
@@ -63,19 +67,27 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/loginteam" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/teamlead" element={<TeamleadL />} />
-          <Route path="/teamleadhome" element={<TeamleadH />} />
-          <Route path="/cards" element={<Cards />} />
-          <Route path="/navbart" element={<Navbart />} />
-          <Route path="/newjobs" element={<Newjobs />} />
-          <Route path="/jobstobe" element={<Jobstobe />} />
-          <Route path="/manager" element={<ManagerL />} />
-          <Route path="/managerhome" element={<ManagerH />} />
-          <Route path="/employee" element={<EmployeeL />} />
-          <Route path="/employeehome" element={<EmployeeH />} />
-          <Route path="/userprofile/:userId" element={<MyProfile />} />
-          <Route path="/applyform/:userId/:jobTitle" element={<Applyform />} />
-          <Route path="/jobstable" element={<Jobstable />} />
+
+          {/* Protected Routes */}
+          <Route element={<PrivateRoutes allowedRoles={['teamlead']} />}>
+            <Route path="/teamleadhome" element={<TeamleadH />} />
+            <Route path="/newjobs" element={<Newjobs />} />
+          </Route>
+
+          <Route element={<PrivateRoutes allowedRoles={['manager']} />}>
+            <Route path="/managerhome" element={<ManagerH />} />
+            <Route path="/jobstobe" element={<Jobstobe />} />
+            <Route path="/jobstable" element={<Jobstable />} />
+            <Route path="/jobstable" element={<Jobstable />} />
+
+          </Route>
+
+
+          <Route element={<PrivateRoutes allowedRoles={['employee']} />}>
+            <Route path="/employeehome" element={<EmployeeH />} />
+            <Route path="/userprofile/:userId" element={<MyProfile />} />
+            <Route path="/applyform/:userId/:jobTitle" element={<Applyform />} />
+          </Route>
 
           {/* <Route path="*" element={<h1 className="m-auto items-center justify-center">404 Page not Found</h1>}/> */}
           <Route
@@ -87,8 +99,8 @@ const App = () => {
             }
           />
         </Routes>
-      </BrowserRouter>
-    </>
+      </Router>
+    </AuthProvider>
   );
 };
 

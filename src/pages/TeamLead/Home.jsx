@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'; // Import useEffect to handle side effects
-import LoginT from './LoginT';
 import Cards from '../../components/Card/Cards';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';

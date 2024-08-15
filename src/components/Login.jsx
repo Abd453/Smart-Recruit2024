@@ -1,85 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Use useNavigate for React Router v6
+import { useNavigate } from 'react-router-dom';
 import ielogo from '../assets/logo.png';
 import ielogoo from '../assets/ielogoo.jpg';
+import { AuthContext } from '../utils/AuthContext';
 
 const Login = () => {
-  
   const [Data, setData] = useState({
-    id: "",
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState({});
   const [isValid, setValid] = useState(true);
-  const [validatorTo, setValidatorTo] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
     let validationErrors = {};
-  
+
     // Validate email
-    if (Data.email === '' || Data.email === null) {
+    if (Data.email === '') {
       isValid = false;
       validationErrors.email = 'Email required';
     }
-  
+
     // Validate password
-    if (Data.password === '' || Data.password === null) {
+    if (Data.password === '') {
       isValid = false;
       validationErrors.password = 'Password required';
     } else if (Data.password.length < 2) {
       isValid = false;
       validationErrors.password = 'Minimum length is 2';
     }
-  
-    // Set errors and validation state
+
     setErrors(validationErrors);
     setValid(isValid);
-  
+
     if (isValid) {
       axios
         .get('http://localhost:8001/signupuser')
         .then((result) => {
           let loginSuccessful = false;
-          let userId = null; // To store the user ID
-  
+          let userId = null;
+          let userRole = null;
+
           result.data.forEach((user) => {
             if (user.email === Data.email) {
               if (user.password === Data.password) {
                 alert('Login successfully');
                 loginSuccessful = true;
-                userId = user.id; // Capture the user ID
+                userId = user.id;
+                userRole = user.role;
               } else {
                 isValid = false;
                 validationErrors.password = 'Wrong password';
               }
             }
           });
-  
+
           if (!loginSuccessful) {
             if (Data.email !== '') {
               validationErrors.email = 'Wrong email address';
             }
             setErrors(validationErrors);
             setValid(isValid);
-            setValidatorTo(false);
           } else {
-            // Navigate to the next page with user ID
-            navigate('/employeehome', { state: { userId } });
+            setAuth({
+              isAuthenticated: true,
+              userRole,
+              userId,
+            });
+
+            // Navigate to the appropriate home page and pass the userId in state
+            switch (userRole) {
+              case 'teamlead':
+                navigate('/teamleadhome', { state: { userId } });
+                break;
+              case 'manager':
+                navigate('/managerhome', { state: { userId } });
+                break;
+              case 'employee':
+                navigate('/employeehome', { state: { userId } });
+                break;
+              default:
+                navigate('/', { state: { userId } });
+                break;
+            }
           }
         })
-        .catch((err) => console.log(err));
-    } else {
-      setValidatorTo(false);
+        .catch((err) => console.error('Error fetching user data:', err));
     }
   };
-  
 
-  console.log(Data); // For debugging, log the current Data state
+  console.log('Current Data State:', Data);
+  console.log('Current Errors State:', errors);
 
   return (
     <section
@@ -96,12 +112,9 @@ const Login = () => {
           </p>
         </div>
         <div className="text-danger">
-          {isValid ? (
-            <></>
-          ) : (
+          {!isValid && (
             <span>
-              {' '}
-              {errors.email} {errors.password}{' '}
+              {errors.email} {errors.password}
             </span>
           )}
           <form onSubmit={handleSubmit}>
@@ -112,7 +125,7 @@ const Login = () => {
                 className="w-full bg-transparent text-black border-b border-black bg-white rounded px-4 py-2 mb-7 outline-none focus:outline-none"
                 style={{
                   boxShadow: '0 4px 6px -1px rgba(70, 130, 180, 0.7)',
-                }} // Brighter sky-blue shadow
+                }}
                 onChange={(event) =>
                   setData({ ...Data, email: event.target.value })
                 }
@@ -123,7 +136,7 @@ const Login = () => {
                 className="w-full bg-transparent text-black border-b border-black bg-white rounded px-4 py-2 mb-2 outline-none focus:outline-none"
                 style={{
                   boxShadow: '0 4px 6px -1px rgba(70, 130, 180, 0.7)',
-                }} // Brighter sky-blue shadow
+                }}
                 onChange={(e) => setData({ ...Data, password: e.target.value })}
               />
             </div>

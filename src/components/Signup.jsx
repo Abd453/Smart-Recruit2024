@@ -73,8 +73,11 @@ export default function Signup() {
       // Add role to the data object
       const userData = {
         ...data,
-        role: 'employee', // Set role to 'user' by default
+        role: 'employee', // Set role to 'employee' by default
+        status: 'pending', // Set status to 'pending' by default
+        date: new Date().toISOString().split('T')[0] // Add current date by default
       };
+      
       axios
         .post('http://localhost:8001/signupuser', userData)
         .then((result) => {

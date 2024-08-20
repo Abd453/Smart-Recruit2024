@@ -74,6 +74,11 @@ const App = () => {
             <Route path="/newjobs" element={<Newjobs />} />
           </Route>
 
+          <Route element={<PrivateRoutes allowedRoles={['hr']} />}>
+            <Route path="/" element={<TeamleadH />} />
+            <Route path="/" element={<Newjobs />} />
+          </Route>
+
           <Route element={<PrivateRoutes allowedRoles={['manager']} />}>
             <Route path="/managerhome" element={<ManagerH />} />
             <Route path="/jobstobe" element={<Jobstobe />} />

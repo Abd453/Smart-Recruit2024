@@ -85,6 +85,9 @@ const Login = () => {
               case 'employee':
                 navigate('/employeehome', { state: { userId } });
                 break;
+              case 'hr':
+                navigate('/overview', { state: { userId } });
+                break;
               default:
                 navigate('/', { state: { userId } });
                 break;

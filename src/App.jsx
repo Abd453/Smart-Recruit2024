@@ -38,6 +38,19 @@ import Wedo from './components/Wedo/Wedo';
 import Features from './components/Features/Features';
 import Jobstable from './pages/Manager/jobstable';
 
+// HR part
+
+import Sidebar from "./components/common/Sidebar";
+import LayoutHr from './pages/LayoutHr';
+import OverviewPage from "./pages/OverviewPage";
+import ProductsPage from "./pages/ProductsPage";
+import UsersPage from "./pages/UsersPage";
+import SalesPage from "./pages/SalesPage";
+import OrdersPage from "./pages/OrdersPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import SettingsPage from "./pages/SettingsPage";
+import CalendarPage from "./pages/CalendarPage";
+import DepartmentPage from "./pages/DepartmentPage";
 
 const App = () => {
   return (
@@ -75,9 +88,18 @@ const App = () => {
           </Route>
 
           <Route element={<PrivateRoutes allowedRoles={['hr']} />}>
-            <Route path="/" element={<TeamleadH />} />
-            <Route path="/" element={<Newjobs />} />
-          </Route>
+        <Route element={<LayoutHr />}>
+          <Route path='/overview' element={<OverviewPage />} />
+          <Route path='/products' element={<ProductsPage />} />
+          <Route path='/users' element={<UsersPage />} />
+          <Route path='/sales' element={<SalesPage />} />
+          <Route path='/orders' element={<OrdersPage />} />
+          <Route path='/analytics' element={<AnalyticsPage />} />
+          <Route path='/settings' element={<SettingsPage />} />
+          <Route path='/calendar' element={<CalendarPage />} />
+          <Route path='/department' element={<DepartmentPage />} />
+        </Route>
+      </Route>
 
           <Route element={<PrivateRoutes allowedRoles={['manager']} />}>
             <Route path="/managerhome" element={<ManagerH />} />
